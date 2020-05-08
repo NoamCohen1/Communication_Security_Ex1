@@ -1,5 +1,7 @@
 import hashlib
 
+
+# the function creates proof of inclusion for the received node and root
 def create_proof_of_inclusion(leaf, root):
     ans = ""
     fatherNode, direction = search_node(root, leaf)
@@ -9,7 +11,7 @@ def create_proof_of_inclusion(leaf, root):
         else:
             if fatherNode.right:
                 ans += direction + " " + str(fatherNode.right.data)
-
+        # if the function search_node return the root - finish and break
         if fatherNode == root:
             break
         else:
@@ -18,10 +20,8 @@ def create_proof_of_inclusion(leaf, root):
     return ans
 
 
+# the function search for the parent of the received node and return the direction of its son
 def search_node(node, data):
-    """
-    Search function will search a node into tree.
-    """
     # if node is a leaf return None
     if node.left is None and node.right is None:
         return None
@@ -37,6 +37,7 @@ def search_node(node, data):
     return search_node(node.right, data)
 
 
+# the function checks the received proof of inclusion
 def check_proof_of_inclusion(leaf, root, listOfProof):
     ans = leaf
     for i in range(0, len(listOfProof), 2):
@@ -50,5 +51,6 @@ def check_proof_of_inclusion(leaf, root, listOfProof):
         return "False"
 
 
+# calculate the hash of two nodes
 def encrypt_string(hash_string):
     return str(hashlib.sha256(hash_string.encode()).hexdigest())
